@@ -1,4 +1,4 @@
-package com.sohel.arrays;
+package com.s0hel.arrays;
 
 public class RemoveElement {
     public int removeElement(int[] nums, int val) {

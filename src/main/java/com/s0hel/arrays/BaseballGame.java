@@ -1,4 +1,4 @@
-package com.sohel.arrays;
+package com.s0hel.arrays;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.s0hel.arrays;
 
-import com.sohel.arrays.ValidParenthesis;
 import org.junit.Assert;
 import org.junit.Test;
 
