@@ -1,0 +1,89 @@
+from collections import deque
+from typing import List
+
+
+# 1091. Shortest Path in Binary Matrix
+# Medium
+# Topics
+# Companies
+# Hint
+# Given an n x n binary matrix grid, return the length of the shortest clear path in the matrix. If there is no clear path, return -1.
+#
+# A clear path in a binary matrix is a path from the top-left cell (i.e., (0, 0)) to the bottom-right cell (i.e., (n - 1, n - 1)) such that:
+#
+# All the visited cells of the path are 0.
+# All the adjacent cells of the path are 8-directionally connected (i.e., they are different and they share an edge or a corner).
+# The length of a clear path is the number of visited cells of this path.
+#
+#
+#
+# Example 1:
+#
+#
+# Input: grid = [[0,1],[1,0]]
+# Output: 2
+# Example 2:
+#
+#
+# Input: grid = [[0,0,0],[1,1,0],[1,1,0]]
+# Output: 4
+# Example 3:
+#
+# Input: grid = [[1,0,0],[1,1,0],[1,1,0]]
+# Output: -1
+#
+#
+# Constraints:
+#
+# n == grid.length
+# n == grid[i].length
+# 1 <= n <= 100
+# grid[i][j] is 0 or 1
+
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+
+        visited = set()
+        length = len(grid)
+
+        if grid[0][0] != 0:
+            return -1
+
+        if grid[length - 1][length - 1] != 0:
+            return -1
+
+        queue = deque()
+        queue.append((0, 0))
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]
+
+        path_length = 1
+
+        while queue:
+            for _ in range(len(queue)):
+                coords = queue.popleft()
+
+                x = coords[0]
+                y = coords[1]
+
+                if x == y and x == length - 1:
+                    return path_length
+
+                for d in directions:
+                    new_coords = (x + d[0], y + d[1])
+
+                    if new_coords not in visited \
+                            and 0 <= new_coords[0] < length \
+                            and 0 <= new_coords[1] < length \
+                            and grid[new_coords[0]][new_coords[1]] == 0:
+                        queue.append(new_coords)
+                        visited.add(new_coords)
+
+            path_length += 1
+
+        return -1
+
+
+grid = [[0, 0, 0], [1, 1, 0], [1, 1, 0]]
+
+s = Solution()
+print(f"Shortest Path: {s.shortestPathBinaryMatrix(grid)}")
