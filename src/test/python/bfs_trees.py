@@ -27,19 +27,25 @@ def bfs_trees(node: Node):
                 q.append(n.right)
         level += 1
 
-
 #            5
 #         /     \
 #        3      8
 #       / \    / \
 #     1    4  6   9
+#      \           \
+#       2           15
 
 node = Node(5)
 node.left = Node(3)
 node.left.left = Node(1)
+node.left.left.right = Node(2)
 node.left.right = Node(4)
 node.right = Node(8)
 node.right.left = Node(6)
 node.right.right = Node(9)
+node.right.right.right = Node(15)
 
 bfs_trees(node)
+print("---")
+
+bfs_trees_again(node)
