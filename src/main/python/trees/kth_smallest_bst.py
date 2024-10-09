@@ -37,20 +37,39 @@ class TreeNode:
 
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        lst = []
-        self.inorder(root, lst, k)
-        return lst[k - 1]
+        # traverse inorder bst iteratively
+        # requires a stack
 
-    def inorder(self, root: Optional[TreeNode], lst: list[int], k: int):
+        stack = []
+        current = root
 
-        if root:
-            self.inorder(root.left, lst, k)
-            lst.append(root.val)
-            if len(lst) == k:
-                return
-            self.inorder(root.right, lst, k)
+        while True:
+
+            while current:
+                stack.append(current)
+                current = current.left
+
+            node = stack.pop()
+            print("hit " + str(node.val))
+            k -= 1
+            if k == 0:
+                return node.val
+
+            current = node.right
 
 
+        # lst = []
+        # self.inorder(root, lst, k)
+        # return lst[k - 1]
+
+    # def inorder(self, root: Optional[TreeNode], lst: list[int], k: int):
+    #
+    #     if root:
+    #         self.inorder(root.left, lst, k)
+    #         lst.append(root.val)
+    #         if len(lst) == k:
+    #             return
+    #         self.inorder(root.right, lst, k)
 
 
 s = Solution()
@@ -62,4 +81,9 @@ rt.left.left = TreeNode(2)
 rt.left.right = TreeNode(4)
 rt.left.left.left = TreeNode(1)
 
+print(s.kthSmallest(rt, 1))
+print(s.kthSmallest(rt, 2))
 print(s.kthSmallest(rt, 3))
+print(s.kthSmallest(rt, 4))
+print(s.kthSmallest(rt, 5))
+print(s.kthSmallest(rt, 6))
