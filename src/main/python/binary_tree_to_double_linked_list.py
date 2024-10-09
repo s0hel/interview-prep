@@ -9,21 +9,41 @@ class Node:
 
 
 class Solution:
-    def bToDll(self, root: Node):
-        head: Node = None
+    def __init__(self):
+        self.head: Node = None
+        self.prev: Node = None
 
-        def helper(node: Node, prev: Node):
+    def bToDll(self, root: Node):
+
+        def helper(node: Node):
             if not node:
                 return
 
-            helper(node.left, prev)
-            if not prev:
-                nonlocal head
-                head = node
+            helper(node.left)
+            if not self.prev:
+                self.head = node
             else:
-                node.left = prev
-                prev.right = node
+                node.left = self.prev
+                self.prev.right = node
 
-            helper(node.right, node)
+            self.prev = node
+            helper(node.right)
 
-        helper(root, None)
+        helper(root)
+
+
+root = Node(3)
+root.left = Node(5)
+root.right = Node(2)
+root.right.left = Node(1)
+root.right.left.left = Node(4)
+root.right.left.right = Node(6)
+
+s = Solution()
+s.bToDll(root)
+print(s.head)
+print(s.head.right)
+print(s.head.right.right)
+print(s.head.right.right.right)
+print(s.head.right.right.right.right)
+print(s.head.right.right.right.right.right)
