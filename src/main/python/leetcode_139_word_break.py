@@ -55,9 +55,9 @@ class Solution:
         def helper(s: str, wordSet: List[str]):
             for word in wordSet:
                 if word in s:
-                    s = s.replace(word, '')
+                    s = s.replace(word, ' ' * len(word))
 
-            return len(s) == 0
+            return len(s.replace(' ', '')) == 0
 
         for subset in subsets:
             if helper(s, subset):
@@ -65,9 +65,26 @@ class Solution:
 
         return False
 
+    def wordBreak3(self, s: str, wordDict: List[str]):
+        cache = [False] * (len(s) + 1)
+        cache[len(s)] = True
+
+        i = len(s) - 1
+        while i >= 0:
+            for word in wordDict:
+                if i + len(word) <= len(s) and s[i: i + len(word)] == word:
+                    cache[i] = cache[i + len(word)]
+                if cache[i]:
+                    break
+            i -= 1
+
+        return cache[0]
 
 s = Solution()
-print(s.wordBreak2(s="cars", wordDict=["car", "ca", "rs"]))
-print(s.wordBreak2(s="leetcode", wordDict=["leet", "code"]))
-print(s.wordBreak2(s="applepenapple", wordDict=["apple", "pen"]))
-print(s.wordBreak2(s="catsandog", wordDict=["cats", "dog", "sand", "and", "cat"]))
+
+print(s.wordBreak3(s="ccaccc", wordDict=["cc", "ac"]))
+print(s.wordBreak3(s="cbca", wordDict=["bc", "ca"]))
+print(s.wordBreak3(s="cars", wordDict=["car", "ca", "rs"]))
+print(s.wordBreak3(s="leetcode", wordDict=["leet", "code"]))
+print(s.wordBreak3(s="applepenapple", wordDict=["apple", "pen"]))
+print(s.wordBreak3(s="catsandog", wordDict=["cats", "dog", "sand", "and", "cat"]))
