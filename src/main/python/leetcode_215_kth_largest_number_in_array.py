@@ -14,6 +14,9 @@
 #
 # Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
 # Output: 4
+import heapq
+from typing import List
+
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
@@ -59,3 +62,53 @@ class Solution:
             return self.quick_selectt(nums, start, left_index - 1, target_pivot)
         else:
             return self.quick_selectt(nums, left_index + 1, end, target_pivot)
+
+    def find_kth_largest(self, nums: List[int], k: int) -> int:
+        # use heaps or use quick select
+        # heaps is easier to code
+        # min-heap way
+        min_heap = []
+        counter = 0
+
+        for n in nums:
+            heapq.heappush(min_heap, n)
+            counter += 1
+            if counter > k:
+                heapq.heappop(min_heap)
+
+        return heapq.heappop(min_heap)
+
+    def find_kth_largest_qs(self, nums: List[int], k: int) -> int:
+        def partition(start_index: int, end_index: int):
+            pivot_value = nums[end_index]
+
+            left = start_index
+
+            for i in range(start_index, end_index):
+                if nums[i] < pivot_value:
+                    nums[left], nums[i] = nums[i], nums[left]
+                    left += 1
+
+            # swap left and pivot
+            nums[left], nums[end_index] = nums[end_index], nums[left]
+
+            return left
+
+        def qs(start, end):
+            pivot = partition(start, end)
+
+            target_index = len(nums) - k
+
+            if pivot == target_index:
+                return nums[pivot]
+            elif pivot > target_index:
+                return qs(start, pivot - 1)
+            else:
+                return qs(pivot + 1, end)
+
+        return qs(0, len(nums) - 1)
+
+
+s = Solution()
+print(s.find_kth_largest_qs([3, 2, 1, 5, 6, 4], 2))
+print(s.find_kth_largest_qs([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
