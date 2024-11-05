@@ -123,7 +123,6 @@ class Solution:
             i -= 1
         return s
 
-
     def intToRoman_better(self, num: int) -> str:
         roman_int_list = [["M", 1000],
                           ["CM", 900],
@@ -148,26 +147,53 @@ class Solution:
 
         return result
 
+    def intToRoman_v2(self, num: int) -> str:
+        num_str = str(num)
+
+        tens = ["I", "X", "C", "M"]
+        fives = ["V", "L", "D"]
+
+        result = []
+        for i, digit in enumerate(num_str[::-1]):
+            d = int(digit)
+            if d <= 3:
+                for _ in range(d):
+                    result.append(tens[i])
+            elif d == 4:
+                result.append(fives[i])
+                result.append(tens[i])
+            elif d <= 8:
+                for _ in range(d - 5):
+                    result.append(tens[i])
+                result.append(fives[i])
+            elif d == 9:
+                result.append(tens[i + 1])
+                result.append(tens[i])
+
+        return "".join(result)[::-1]
+
+
 s = Solution()
-print(s.intToRoman_better(60))
-print(s.intToRoman_better(3749))
-print(s.intToRoman(1))
-print(s.intToRoman(2))
-print(s.intToRoman(3))
-print(s.intToRoman(4))
-print(s.intToRoman(5))
-print(s.intToRoman(6))
-print(s.intToRoman(7))
-print(s.intToRoman(8))
-print(s.intToRoman(9))
-print(s.intToRoman(10))
-print(s.intToRoman(11))
-print(s.intToRoman(12))
-print(s.intToRoman(13))
-print(s.intToRoman(14))
-print(s.intToRoman(15))
-print(s.intToRoman(16))
-print(s.intToRoman(17))
-print(s.intToRoman(18))
-print(s.intToRoman(19))
-print(s.intToRoman(20))
+print(s.intToRoman_v2(58))
+print(s.intToRoman_v2(60))
+print(s.intToRoman_v2(3749))
+print(s.intToRoman_v2(1))
+print(s.intToRoman_v2(2))
+print(s.intToRoman_v2(3))
+print(s.intToRoman_v2(4))
+print(s.intToRoman_v2(5))
+print(s.intToRoman_v2(6))
+print(s.intToRoman_v2(7))
+print(s.intToRoman_v2(8))
+print(s.intToRoman_v2(9))
+print(s.intToRoman_v2(10))
+print(s.intToRoman_v2(11))
+print(s.intToRoman_v2(12))
+print(s.intToRoman_v2(13))
+print(s.intToRoman_v2(14))
+print(s.intToRoman_v2(15))
+print(s.intToRoman_v2(16))
+print(s.intToRoman_v2(17))
+print(s.intToRoman_v2(18))
+print(s.intToRoman_v2(19))
+print(s.intToRoman_v2(20))
